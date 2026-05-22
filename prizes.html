@@ -1,0 +1,103 @@
+fetch("/api/prizes")
+  .then(res => res.json())
+  .then(prizes => 
+  {
+    const select = document.getElementById("prize");
+    prizes.forEach(p => {
+      const opt = document.createElement("option");
+      opt.value = p.name;
+      opt.textContent = p.name;
+      select.appendChild(opt);
+    });
+  });
+
+
+
+
+document.getElementById("entryForm").addEventListener("submit", function (e) 
+{
+  e.preventDefault();
+
+
+  const errorIds = ["nameError","emailError","phoneError","prizeError","contactError","agreeError","submitError"];
+  errorIds.forEach(id => document.getElementById(id).innerHTML = "");
+
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phoneRaw = document.getElementById("phone").value.trim();
+  const prize = document.getElementById("prize").value;
+  const agree = document.getElementById("agree").checked;
+
+  const contactEl = document.querySelector('input[name="contactMethod"]:checked');
+  const contactMethod = contactEl ? contactEl.value : "";
+
+  let ok = true;
+
+  if (name.length < 2) 
+  {
+    document.getElementById("nameError").innerHTML = "Please enter your full name.";
+    ok = false;
+  }
+
+  if (!email.includes("@") || !email.includes(".")) 
+  {
+    document.getElementById("emailError").innerHTML = "Please enter a valid email.";
+    ok = false;
+  }
+
+  const digits = phoneRaw.replace(/\D/g, "");
+  if (digits.length < 10) 
+  {
+    document.getElementById("phoneError").innerHTML = "Please enter a valid phone number.";
+    ok = false;
+  }
+
+  if (!prize) 
+  {
+    document.getElementById("prizeError").innerHTML = "Please choose a prize.";
+    ok = false;
+  }
+
+  if (!contactMethod) 
+  {
+    document.getElementById("contactError").innerHTML = "Please select a contact method.";
+    ok = false;
+  }
+
+  if (!agree) 
+  {
+    document.getElementById("agreeError").innerHTML = "You must agree to the rules.";
+    ok = false;
+  }
+
+  if (!ok) return;
+
+  fetch("/api/entries", 
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(
+    {
+      name,
+      email,
+      phone: digits,
+      prize,
+      contactMethod,
+      agree: 1,
+    })
+  })
+    .then(res => res.json())
+    .then(data => 
+    {
+      if (data.error) 
+      {
+        document.getElementById("submitError").innerHTML = data.error;
+        return;
+      }
+      window.location.href = "/thanks.html";
+    })
+    .catch(() => {
+      document.getElementById("submitError").innerHTML = "Submission failed.";
+    });
+});

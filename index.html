@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brently Giveaway - Enter</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+
+
+
+<body>
+  <header>
+    <h1>Enter Giveaway</h1>
+    <button class="nav-toggle" id="navToggle">Menu</button>
+
+    <nav id="siteNav">
+      <a href="/index.html">Home</a>
+      <a href="/prizes.html">Prizes</a>
+      <a href="/enter.html">Enter</a>
+    </nav>
+  </header>
+
+  <main>
+    <form id="entryForm" novalidate>
+      <h2>Your information</h2>
+
+      <label>
+        Name (First, Last)
+        <input type="text" id="name" name="name" />
+        <div class="error" id="nameError"></div>
+      </label>
+
+      <label>
+        Email
+        <input type="email" id="email" name="email" />
+        <div class="error" id="emailError"></div>
+      </label>
+
+      <label>
+        Phone 
+        <input type="tel" id="phone" name="phone" />
+        <div class="error" id="phoneError"></div>
+      </label>
+
+
+
+      <label>
+        Select a prize 
+        <select id="prize" name="prize">
+          <option value="">Select one</option>
+        </select>
+        <div class="error" id="prizeError"></div>
+      </label>
+
+      <p>Preferred contact method </p>
+      
+      <div class="inline">
+        <label><input type="radio" name="contactMethod" value="email" /> Email</label>
+        <label><input type="radio" name="contactMethod" value="text" /> Text</label>
+      </div>
+
+      <div class="error" id="contactError"></div>
+
+
+      <label class="inline">
+        <input type="checkbox" id="agree" name="agree" value="1" />
+        I agree to the rules
+      </label>
+
+      <div class="error" id="agreeError"></div>
+
+      <p><button type="submit">Submit Entry</button></p>
+
+      <div class="error" id="submitError"></div>
+      
+    </form>
+  </main>
+
+  <script src="/js/nav.js"></script>
+  <script src="/js/enter.js"></script>
+</body>
+</html>
